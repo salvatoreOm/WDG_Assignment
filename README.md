@@ -34,6 +34,12 @@ A scalable web application that enables NGOs across India to submit monthly impa
 - ✅ CORS configuration for frontend-backend communication
 - ✅ Comprehensive error handling and validation
 
+### Bonus Features ⭐
+- ✅ **OpenAPI/Swagger Documentation** - Interactive API testing at `/api/docs/`
+- ✅ **Dashboard Filtering** - Date range and NGO-specific filtering
+- ✅ **Structured Logging** - JSON logs with observability features
+- ✅ **Enhanced UI Components** - Material-UI status chips and progress indicators
+
 ## API Endpoints
 
 ### 1. Submit Single Report
@@ -168,8 +174,11 @@ Response:
    ```
 
 The application will be available at:
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:8000/api
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8000/api
+- **API Documentation (Swagger)**: http://localhost:8000/api/docs/
+- **API Documentation (ReDoc)**: http://localhost:8000/api/redoc/
+- **Django Admin**: http://localhost:8000/admin/
 
 ## Sample CSV Format
 
