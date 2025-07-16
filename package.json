@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "NGO Impact Tracker - Track and report NGO impact across India",
   "scripts": {
-    "build": "cd frontend && npm install && npm run build",
+    "build": "cd frontend && npm run build",
     "start": "cd frontend && npm start",
     "backend": "python manage.py runserver",
     "celery": "celery -A ngo_impact_tracker worker --loglevel=info"
