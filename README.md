@@ -2,288 +2,147 @@
 
 A scalable web application that enables NGOs across India to submit monthly impact reports and provides administrators with a comprehensive dashboard to track and analyze aggregated data.
 
-## Tech Stack
+## 🚀 Deployed Application
+
+**Live Demo**: [https://wdg-assignment-smcb.vercel.app](https://wdg-assignment-smcb.vercel.app)
+
+## 🛠 Tech Stack
 
 ### Backend
 - **Django 5.2.4** - Web framework
 - **Django REST Framework** - API development
 - **Celery** - Background task processing
 - **Redis** - Message broker for Celery
-- **SQLite** - Database (easily configurable for PostgreSQL/MySQL)
+- **SQLite** - Database
 
 ### Frontend
-- **React 18** - Frontend framework
+- **React 19** - Frontend framework
 - **Material-UI (MUI)** - Component library and styling
 - **Axios** - HTTP client for API communication
 
-## Features
+### Deployment
+- **Vercel** - Frontend hosting
+- **Railway/Heroku** - Backend deployment options
 
-### Core Functionality
-- ✅ Individual monthly report submission
-- ✅ Bulk CSV upload with background processing
-- ✅ Real-time job progress tracking
-- ✅ Admin dashboard with aggregated metrics
-- ✅ Data validation and error handling
-- ✅ Idempotency (prevents duplicate reports for same NGO/month)
-
-### Technical Features
-- ✅ Asynchronous CSV processing
-- ✅ Partial failure handling
-- ✅ Progress tracking with polling
-- ✅ Responsive design
-- ✅ CORS configuration for frontend-backend communication
-- ✅ Comprehensive error handling and validation
-
-### Bonus Features ⭐
-- ✅ **OpenAPI/Swagger Documentation** - Interactive API testing at `/api/docs/`
-- ✅ **Dashboard Filtering** - Date range and NGO-specific filtering
-- ✅ **Structured Logging** - JSON logs with observability features
-- ✅ **Enhanced UI Components** - Material-UI status chips and progress indicators
-
-## API Endpoints
-
-### 1. Submit Single Report
-```
-POST /api/report
-Content-Type: application/json
-
-{
-  "ngo_id": "NGO001",
-  "month": "2024-01",
-  "people_helped": 150,
-  "events_conducted": 5,
-  "funds_utilized": 25000.50
-}
-```
-
-### 2. Bulk Upload CSV
-```
-POST /api/reports/upload
-Content-Type: multipart/form-data
-
-Form data:
-- file: CSV file with columns (ngo_id, month, people_helped, events_conducted, funds_utilized)
-
-Response:
-{
-  "success": true,
-  "message": "File uploaded successfully. Processing started.",
-  "job_id": "uuid"
-}
-```
-
-### 3. Job Status Tracking
-```
-GET /api/job-status/{job_id}
-
-Response:
-{
-  "success": true,
-  "data": {
-    "id": "uuid",
-    "status": "processing",
-    "total_rows": 100,
-    "processed_rows": 45,
-    "successful_rows": 42,
-    "failed_rows": 3,
-    "progress_percentage": 45.0,
-    "error_details": [...]
-  }
-}
-```
-
-### 4. Dashboard Data
-```
-GET /api/dashboard?month=2024-01
-
-Response:
-{
-  "success": true,
-  "data": {
-    "month": "2024-01",
-    "total_ngos_reporting": 25,
-    "total_people_helped": 5000,
-    "total_events_conducted": 150,
-    "total_funds_utilized": 750000.00
-  }
-}
-```
-
-## Setup Instructions
+## 📋 Setup Instructions
 
 ### Prerequisites
 - Python 3.8+ 
 - Node.js 14+
 - Redis server
 
-### Backend Setup
+### Quick Start
 
-1. **Clone and navigate to the project**:
+1. **Clone the repository**:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/salvatoreOm/WDG_Assignment.git
    cd WDG_Assignment
    ```
 
-2. **Create and activate virtual environment**:
+2. **Backend Setup**:
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install Python dependencies**:
-   ```bash
-   pip install django djangorestframework celery redis django-cors-headers
-   ```
-
-4. **Run database migrations**:
-   ```bash
+   pip install -r requirements.txt
    python manage.py migrate
    ```
 
-5. **Start Redis server** (in a separate terminal):
+3. **Start Services** (3 separate terminals):
    ```bash
+   # Terminal 1: Redis
    redis-server
-   ```
-
-6. **Start Celery worker** (in a separate terminal):
-   ```bash
-   source venv/bin/activate
+   
+   # Terminal 2: Celery Worker
    celery -A ngo_impact_tracker worker --loglevel=info
-   ```
-
-7. **Start Django development server**:
-   ```bash
+   
+   # Terminal 3: Django Server
    python manage.py runserver
    ```
 
-### Frontend Setup
-
-1. **Navigate to frontend directory**:
+4. **Frontend Setup**:
    ```bash
    cd frontend
-   ```
-
-2. **Install Node.js dependencies**:
-   ```bash
    npm install
-   ```
-
-3. **Start React development server**:
-   ```bash
    npm start
    ```
 
-The application will be available at:
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:8000/api
-- **API Documentation (Swagger)**: http://localhost:8000/api/docs/
-- **API Documentation (ReDoc)**: http://localhost:8000/api/redoc/
-- **Django Admin**: http://localhost:8000/admin/
+**Application URLs**:
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000/api
+- API Documentation: http://localhost:8000/api/docs/
 
-## Sample CSV Format
+## 📡 API Sample Usage
 
-Download the sample CSV from the application or create a file with these columns:
-
-```csv
-ngo_id,month,people_helped,events_conducted,funds_utilized
-NGO001,2024-01,150,5,25000.50
-NGO002,2024-01,200,8,35000.00
-NGO001,2024-02,175,6,28000.75
+### Submit Single Report
+```bash
+curl -X POST http://localhost:8000/api/report \
+  -H "Content-Type: application/json" \
+  -d '{
+    "ngo_id": "NGO001",
+    "month": "2024-01",
+    "people_helped": 150,
+    "events_conducted": 5,
+    "funds_utilized": 25000.50
+  }'
 ```
 
-## Usage Examples
+### Bulk Upload CSV
+```bash
+curl -X POST http://localhost:8000/api/reports/upload \
+  -F "file=@sample_reports.csv"
+```
 
-### Submit Individual Report
-1. Navigate to "Submit Report" tab
-2. Fill in NGO ID, month (YYYY-MM format), and impact metrics
-3. Click "Submit Report"
-4. View success/error feedback
+### Check Processing Status
+```bash
+curl http://localhost:8000/api/job-status/{job_id}
+```
 
-### Bulk Upload
-1. Navigate to "Bulk Upload" tab
-2. Download sample CSV for reference
-3. Upload your CSV file
-4. Monitor real-time progress
-5. Review processing results and errors
+### Dashboard Data
+```bash
+curl "http://localhost:8000/api/dashboard?month=2024-01"
+```
 
-### View Dashboard
-1. Navigate to "Dashboard" tab
-2. Select desired month
-3. View aggregated metrics and insights
-4. Analyze NGO impact data
-
-## Architecture Decisions
-
-### Database Design
-- **Reports Table**: Stores individual NGO reports with unique constraint on (ngo_id, month) for idempotency
-- **Jobs Table**: Tracks background processing status with detailed progress information
-
-### Background Processing
-- **Celery Integration**: Handles CSV processing asynchronously to prevent timeouts
-- **Progress Tracking**: Real-time updates during processing with error collection
-- **Partial Failure Handling**: Continues processing valid rows even when some fail
-
-### Frontend Architecture
-- **Component-Based Design**: Modular React components for maintainability
-- **Material-UI Integration**: Professional, responsive design
-- **API Service Layer**: Centralized API communication with error handling
-
-### Scalability Considerations
-- **Database Indexing**: Optimized queries with proper indexing on frequently accessed fields
-- **Async Processing**: Non-blocking CSV uploads with background processing
-- **Error Isolation**: Individual row failures don't stop entire batch processing
-
-## Production Improvements
-
-Given more time, the following enhancements would be implemented:
-
-### Infrastructure
-- **Database Migration**: PostgreSQL with connection pooling
-- **Caching Layer**: Redis for frequently accessed dashboard data
-- **File Storage**: AWS S3 for CSV file storage
-- **Container Deployment**: Docker containers with orchestration
-
-### Security
-- **Authentication & Authorization**: JWT-based auth with role-based access
-- **Rate Limiting**: API throttling to prevent abuse
-- **Input Sanitization**: Enhanced validation and sanitization
-- **HTTPS Configuration**: SSL/TLS encryption
-
-### Monitoring & Performance
-- **Logging System**: Structured logging with ELK stack
-- **Performance Monitoring**: Application performance monitoring
-- **Health Checks**: System health monitoring and alerting
-- **Database Optimization**: Query optimization and indexing
-
-### Features
-- **Data Export**: Export dashboard data to Excel/PDF
-- **Advanced Filtering**: Date ranges, NGO filtering, regional analysis
-- **Notifications**: Email/SMS notifications for report submissions
-- **Audit Trail**: Track all data changes for compliance
-
-### Testing
-- **Unit Tests**: Comprehensive backend and frontend test coverage
-- **Integration Tests**: API endpoint testing
-- **Load Testing**: Performance testing for scalability
-- **E2E Testing**: Complete workflow testing
-
-## Screenshots
+## 🖥 UI Features
 
 The application includes:
-- Clean, professional interface with Material-UI components
-- Real-time progress tracking for bulk uploads
-- Interactive dashboard with metric cards and insights
-- Comprehensive error handling and user feedback
-- Mobile-responsive design
+- **Individual Report Submission**: Clean form with validation
+- **Bulk CSV Upload**: Drag-and-drop interface with real-time progress tracking
+- **Admin Dashboard**: Aggregated metrics with filtering capabilities
+- **Status Tracking**: Live updates for background processing jobs
+- **Responsive Design**: Mobile-friendly Material-UI components
 
-## Contributing
+## 📝 Technical Writeup
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Submit a pull request
+### Approach & Architecture
 
-## License
+I designed this application with scalability and user experience as primary considerations. The architecture follows a clean separation between frontend and backend, enabling independent scaling and deployment.
 
-This project is developed for educational and demonstration purposes.
+**Backend Architecture**: I chose Django REST Framework for rapid API development with built-in validation and serialization. Celery with Redis handles asynchronous CSV processing, preventing timeout issues during bulk uploads. The database design enforces idempotency through unique constraints on (ngo_id, month) pairs, preventing duplicate submissions.
+
+**Frontend Architecture**: React with Material-UI provides a professional, responsive interface. I implemented real-time progress tracking using polling to give users feedback during long-running operations. The component structure is modular and reusable.
+
+**Key Design Decisions**:
+- Asynchronous processing for scalability
+- Comprehensive error handling and validation
+- Progress tracking for better UX
+- RESTful API design for clarity
+
+### AI Tools Usage
+
+I leveraged AI assistance primarily for:
+- Boilerplate code generation and Django model setup
+- API endpoint documentation and validation logic
+- Frontend component structure and Material-UI integration
+- Error handling patterns and best practices
+- Deployment configuration troubleshooting
+
+### Production Improvements
+
+With more time, I would implement:
+- **Authentication & Authorization**: JWT-based auth with role-based access control
+- **Database Migration**: PostgreSQL with connection pooling and proper indexing
+- **Caching Strategy**: Redis caching for dashboard aggregations
+- **Monitoring**: Structured logging, health checks, and performance monitoring
+- **Testing**: Comprehensive unit, integration, and end-to-end testing
+- **Security**: Rate limiting, input sanitization, and HTTPS configuration
+- **CI/CD Pipeline**: Automated testing and deployment workflows
