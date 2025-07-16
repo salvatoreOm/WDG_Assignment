@@ -1,0 +1,15 @@
+{
+  "name": "ngo-impact-tracker",
+  "version": "1.0.0",
+  "description": "NGO Impact Tracker - Track and report NGO impact across India",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "start": "cd frontend && npm start",
+    "backend": "python manage.py runserver",
+    "celery": "celery -A ngo_impact_tracker worker --loglevel=info"
+  },
+  "keywords": ["ngo", "impact", "tracking", "django", "react"],
+  "author": "Your Name",
+  "license": "MIT",
+  "private": true
+} 
